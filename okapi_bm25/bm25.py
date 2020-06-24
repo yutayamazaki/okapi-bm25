@@ -1,5 +1,5 @@
 import math
-from typing import Callable, Dict, List, Tuple
+from typing import Callable, Dict, List
 
 import numpy as np
 
@@ -56,6 +56,7 @@ class OkapiBM25:
         self.token2idf_: Dict[str, float] = \
             self._create_idf_dict(X, self.tokenizer)
         self.avgdl_: float = self._get_avgdl(X, self.tokenizer)
+        return self
 
     def calc_score(self, doc: str, query: str) -> float:
         query_tokens: List[str] = self.tokenizer(query)
