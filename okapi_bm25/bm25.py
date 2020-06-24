@@ -50,6 +50,7 @@ class OkapiBM25:
 
     @staticmethod
     def _get_avgdl(docs: List[str], tokenizer: Callable) -> float:
+        """Calculate average length of tokens in each documents."""
         return np.mean([len(tokenizer(doc)) for doc in docs])
 
     def fit(self, X: List[str], y=None):
