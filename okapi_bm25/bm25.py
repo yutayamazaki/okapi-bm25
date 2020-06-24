@@ -4,11 +4,6 @@ from typing import Callable, Dict, List
 import numpy as np
 
 
-def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
-    norm: Callable = np.linalg.norm
-    return float(np.dot(a, b) / (norm(a) * norm(b)))
-
-
 class OkapiBM25:
 
     def __init__(self, tokenizer: Callable, k: float = 1.2, b: float = 0.75):

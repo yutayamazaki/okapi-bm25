@@ -3,27 +3,10 @@ import unittest
 import numpy as np
 
 from okapi_bm25 import OkapiBM25
-from okapi_bm25.bm25 import cosine_similarity
 
 
 def tokenize(text: str):
     return text.split(' ')
-
-
-class CosineSimilarityTests(unittest.TestCase):
-
-    def test_simple(self):
-        a: np.ndarray = np.array([1, 1])
-        b: np.ndarray = np.array([1, 1])
-        c: np.ndarray = np.array([-1, -1])
-
-        sim: float = cosine_similarity(a, b)
-        self.assertIsInstance(sim, float)
-        self.assertAlmostEqual(sim, 1.0)
-
-        sim: float = cosine_similarity(a, c)
-        self.assertIsInstance(sim, float)
-        self.assertAlmostEqual(sim, -1.0)
 
 
 class BM25Tests(unittest.TestCase):
