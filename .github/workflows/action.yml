@@ -24,3 +24,6 @@ jobs:
     - name: Type check with mypy
       run: |
         mypy okapi_bm25
+    - name: Run unittests
+      run: |
+        python -m unittest discover tests
