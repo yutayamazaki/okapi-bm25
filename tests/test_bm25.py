@@ -33,9 +33,8 @@ class BM25Tests(unittest.TestCase):
 
     def test_create_idf_dict(self):
         bm25 = OkapiBM25(tokenize)
-        token2idf: Dict[str, float] = bm25._create_idf_dict(
-            self.docs, tokenize
-        )
+        tokenized_docs: List[List[str]] = [tokenize(x) for x in self.docs]
+        token2idf: Dict[str, float] = bm25._create_idf_dict(tokenized_docs)
         expected: Dict[str, float] = {
             'a': 0.6931471805599453,
             'pen': 0.6931471805599453,
@@ -56,7 +55,9 @@ class BM25Tests(unittest.TestCase):
 
     def test_get_avgdl(self):
         bm25 = OkapiBM25(tokenize)
-        avgdl: float = bm25._get_avgdl(self.docs, tokenize)
+        tokenized_docs: List[List[str]] = [tokenize(x) for x in self.docs]
+
+        avgdl: float = bm25._get_avgdl(tokenized_docs)
         self.assertAlmostEqual(avgdl, 2.5)
 
     def test_fit(self):

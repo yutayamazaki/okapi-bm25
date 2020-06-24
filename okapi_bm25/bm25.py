@@ -18,12 +18,11 @@ class OkapiBM25:
 
     @staticmethod
     def _create_idf_dict(
-        docs: List[str], tokenize: Callable, smooth: float = 0.5
+        docs: List[List[str]], smooth: float = 0.5
     ) -> Dict[str, float]:
         num_docs: int = len(docs)
         token2count: Dict[str, int] = {}
-        for doc in docs:
-            tokens: List[str] = tokenize(doc)
+        for tokens in docs:
             for token in set(tokens):
                 if token in token2count.keys():
                     token2count[token] += 1
@@ -49,14 +48,16 @@ class OkapiBM25:
         return token2freq
 
     @staticmethod
-    def _get_avgdl(docs: List[str], tokenizer: Callable) -> float:
+    def _get_avgdl(docs: List[List[str]]) -> float:
         """Calculate average length of tokens in each documents."""
-        return np.mean([len(tokenizer(doc)) for doc in docs])
+        return np.mean([len(tokens) for tokens in docs])
 
     def fit(self, X: List[str], y=None):
+        tokenized_docs: List[List[str]] = [self.tokenizer(x) for x in X]
+
         self.token2idf_: Dict[str, float] = \
-            self._create_idf_dict(X, self.tokenizer)
-        self.avgdl_: float = self._get_avgdl(X, self.tokenizer)
+            self._create_idf_dict(tokenized_docs)
+        self.avgdl_: float = self._get_avgdl(tokenized_docs)
         return self
 
     def calc_score(self, doc: str, query: str) -> float:
