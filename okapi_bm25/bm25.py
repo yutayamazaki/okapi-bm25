@@ -1,5 +1,5 @@
 import math
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Tuple
 
 import numpy as np
 
@@ -56,6 +56,7 @@ class OkapiBM25:
         return self
 
     def calc_score(self, doc: str, query: str) -> float:
+        """Calculate similarity score with Okapi BM25."""
         query_tokens: List[str] = self.tokenizer(query)
         doc_tokens: List[str] = self.tokenizer(doc)
 
@@ -80,3 +81,20 @@ class OkapiBM25:
             numerator: float = idf * freq * (k + 1)
             score += numerator / denominator
         return score
+
+    def most_similar(
+        self, docs: List[str], query: str
+    ) -> List[Tuple[str, float]]:
+        """
+        Args:
+            docs (List[str]): A list of documents to search.
+            query (str): A query to search documents.
+
+        Returns:
+            List[Tuple[str, float]]: Searched document and its score orderd by
+                                     similarity.
+        """
+        scores: List[Tuple[str, float]] = [
+            (doc, self.calc_score(doc, query)) for doc in docs
+        ]
+        return sorted(scores, key=lambda x: -x[1])

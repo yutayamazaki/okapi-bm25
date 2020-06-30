@@ -63,3 +63,14 @@ class BM25Tests(unittest.TestCase):
 
         score: float = bm25.calc_score('I am a dog', 'I have a pen')
         self.assertEqual(score, 0.11206322083391479)
+
+    def test_most_similar(self):
+        bm25 = OkapiBM25(tokenize)
+        bm25.fit(self.docs)
+
+        query: str = 'I am a dog.'
+        scores: List[Tuple[str, float]] = bm25.most_similar(self.docs, query)
+        self.assertIsInstance(scores, list)
+        for doc, score in scores:
+            self.assertIsInstance(doc, str)
+            self.assertIsInstance(score, float)
